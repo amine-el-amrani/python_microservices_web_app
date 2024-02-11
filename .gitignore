@@ -37,6 +37,8 @@ share/python-wheels/
 *.sqlite3
 *.db
 
+.dbdata
+
 # Fichiers de journalisation
 *.log
 
