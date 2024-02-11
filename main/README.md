@@ -32,3 +32,20 @@ pip install -r requirements.txt
 
 # run the server
 python main.py
+
+# Set the FLASK_APP environment variable before using Flask CLI commands
+export FLASK_APP=main.py
+
+# Initialize migrations (if not already done):
+flask db init
+
+# Create a migration file after modifying models:
+flask db migrate -m "migration description"
+
+#Apply the migrations to the database:
+flask db upgrade
+
+# To revert a migration (downgrade):
+flask db downgrade
+
+```
