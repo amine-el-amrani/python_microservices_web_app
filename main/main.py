@@ -13,6 +13,20 @@ CORS(app)
 db = SQLAlchemy(app)
 
 
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=False) # autoincrement=False because we will create the products from the django app, so we have the same ids in both Django and Flask apps
+    title = db.column(db.String(200))
+    image = db.column(db.String(200))
+
+
+class ProdictUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    product_id = db.Column(db.Integer)
+
+
+    UniqueConstraint('user_id', 'product_id', name='user_product_unique')
+
 @app.route('/')
 def index():
     return 'Hello'
