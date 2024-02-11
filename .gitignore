@@ -1,0 +1,65 @@
+# Fichiers de bytecode compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dossiers de l'environnement virtuel
+env/
+venv/
+*.venv/
+ENV/
+
+# Fichiers de distribution / empaquetage
+*.egg-info/
+dist/
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+# Fichiers de configuration d'outils de développement
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Fichiers de base de données SQLite
+*.sqlite3
+*.db
+
+# Fichiers de journalisation
+*.log
+
+# Dossier pour les fichiers statiques et médias générés (Django)
+/static
+/media
+
+# Fichier secret Django
+*.secret_key
+secret.py
+
+# Fichier de base de données local Django
+db.sqlite3
+
+# Fichiers de configuration locaux
+instance/
+.webassets-cache
+
+# Fichier dotenv pour les variables d'environnement
+.env
+
+# Fichiers de configuration de pytest
+.pytest_cache/
+
+# Fichiers de configuration de mypy
+.mypy_cache/
