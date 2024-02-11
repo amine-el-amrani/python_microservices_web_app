@@ -6,20 +6,20 @@ from rest_framework.views import APIView
 
 from .serializers import ProductSerializer
 from .models import Product, User
-from .producer import publish
+from .producer import publish_safe
 
 
 class ProductViewSet(viewsets.ViewSet):
     def list(self, request): 
         products = Product.objects.all()
         serializer= ProductSerializer(products, many=True)
-        publish()
         return Response(serializer.data)
 
     def create(self,request):
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        publish_safe('product_created', serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
@@ -32,11 +32,13 @@ class ProductViewSet(viewsets.ViewSet):
         serializer = ProductSerializer(instance=product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        publish_safe('product_updated', serializer.data)
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
     def destroy(self, request, pk=None):
         product = Product.objects.get(id=pk)
         product.delete()
+        publish_safe('product_deleted', pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
