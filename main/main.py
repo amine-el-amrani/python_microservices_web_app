@@ -1,7 +1,9 @@
-from flask import Flask, jsonify
+import requests
+from flask import Flask, jsonify, abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from producer import publish
 
 
 
@@ -35,9 +37,26 @@ class ProductUser(db.Model):
 
 @app.route('/api/products')
 def index():
-    products = Product.query.all()
-    products_data = [product.to_dict() for product in products]
-    return jsonify(products_data)
+    return jsonify(Product.query.all())
+
+
+@app.route('/api/products/<int:id>/like', methods=['POST'])
+def like(id):
+    req = requests.get('http://backend:8000/api/user')
+    json = req.json()
+
+    try:
+        productUser = ProductUser(user_id=json['id'], product_id=id)
+        db.session.add(productUser)
+        db.session.commit()
+
+        publish('product_liked', id)
+    except:
+        abort(400, 'You already liked this product')
+
+    return jsonify({
+        'message': 'success'
+    })
 
 
 if __name__ == '__main__':
