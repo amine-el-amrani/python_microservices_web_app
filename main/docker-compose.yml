@@ -11,6 +11,8 @@ services:
       - .:/app
     depends_on:
       - db
+    networks:
+      - admin_mon_reseau
 
   queue:
     build:
@@ -19,7 +21,8 @@ services:
     command: 'python consumer.py'
     depends_on:
       - db
-
+    networks:
+      - admin_mon_reseau
 
   db:
     image: mysql:8.0.28
@@ -31,3 +34,9 @@ services:
       - .dbdata:/var/lib/mysql
     ports:
       - "33067:3306"
+    networks:
+      - admin_mon_reseau
+
+networks:
+  admin_mon_reseau:
+    external: true

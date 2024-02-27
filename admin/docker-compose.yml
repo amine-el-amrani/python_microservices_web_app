@@ -4,13 +4,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: 
+      - sh 
+      - -c 
+      - |
+        python manage.py migrate && python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:
       - .:/app
     depends_on:
       - db
+    networks:
+      - admin_mon_reseau
 
   queue:
     build:
@@ -19,14 +25,24 @@ services:
     command: 'python consumer.py'
     depends_on:
       - db
+    networks:
+      - admin_mon_reseau
 
   db:
     image: mysql:8.0.28
     restart: always
     environment:
       MYSQL_DATABASE: admin
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - .dbdata:/var/lib/mysql
     ports:
-      - "33066:3306"
+      - "3306:3306"
+    networks:
+      - admin_mon_reseau
+
+networks:
+  admin_mon_reseau:
+    external: true
