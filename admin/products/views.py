@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from .models import Product, User
 from .producer import publish
 from .serializers import ProductSerializer
-import random
+import secrets
 
 
 class ProductViewSet(viewsets.ViewSet):
@@ -44,7 +44,7 @@ class ProductViewSet(viewsets.ViewSet):
 class UserAPIView(APIView):
     def get(self, _):
         users = User.objects.all()
-        user = random.choice(users)
+        user = secrets.choice(users)
         return Response({
             'id': user.id
         })
