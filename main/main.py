@@ -1,9 +1,9 @@
-import requests
 from flask import Flask, jsonify, abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from producer import publish
+from security import safe_requests
 
 
 
@@ -42,7 +42,7 @@ def index():
 
 @app.route('/api/products/<int:id>/like', methods=['POST'])
 def like(id):
-    req = requests.get('http://backend:8000/api/user', timeout=60)
+    req = safe_requests.get('http://backend:8000/api/user', timeout=60)
     json = req.json()
 
     try:
